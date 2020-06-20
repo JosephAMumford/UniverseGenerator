@@ -1,17 +1,226 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
-		<title>Title</title>
+		<title>Universe Generator</title>
+		<!-- Required meta tags -->
 		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
 		<meta name="author" content="" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<link rel="stylesheet" href="style.css" />
+
+		<!-- Bootstrap -->
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+			integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+			crossorigin="anonymous"
+		/>
+
+		<!-- JS, Popper.js, and jQuery -->
+		<script
+			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+			integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+			integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+			integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+			crossorigin="anonymous"
+		></script>
+
+		<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+		<script src="perlin.js"></script>
+		<script src="dataReference.js"></script>
+		<script src="generator.js"></script>
+		<script src="utilities.js"></script>
 	</head>
+
 	<body>
-		<div id="wrapper">
+		<div class="container">
 			<h1>Universe Generator</h1>
+			<div class="input-group mb-3 w-50">
+				<div class="input-group-prepend">
+					<button
+						class="btn btn-outline-primary"
+						type="button"
+						id="seedButton"
+						onclick="randomSeed()"
+					>
+						Random Seed
+					</button>
+				</div>
+				<input
+					type="text"
+					class="form-control"
+					id="seedInput"
+					aria-label="seed"
+					aria-describedby="seedInput"
+					placeholder="Seed"
+				/>
+				<div class="input-group-append">
+					<button
+						type="button"
+						class="btn btn-outline-primary"
+						onclick="generateUniverse()"
+					>
+						Generate
+					</button>
+				</div>
+			</div>
+			<div class="accordion" id="universeDisplay">
+				<div class="card">
+					<div class="card-header" id="headingOne">
+						<h2 class="mb-0">
+							<button
+								class="btn btn-link btn-block text-left"
+								type="button"
+								data-toggle="collapse"
+								data-target="#collapseOne"
+								aria-expanded="true"
+								aria-controls="collapseOne"
+							>
+								System Information
+							</button>
+						</h2>
+					</div>
+
+					<div
+						id="collapseOne"
+						class="collapse show"
+						aria-labelledby="headingOne"
+						data-parent="#universeDisplay"
+					>
+						<div class="card-body">
+							<pre id="list"></pre>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header" id="headingTwo">
+						<h2 class="mb-0">
+							<button
+								class="btn btn-link btn-block text-left collapsed"
+								type="button"
+								data-toggle="collapse"
+								data-target="#collapseTwo"
+								aria-expanded="false"
+								aria-controls="collapseTwo"
+							>
+								Map
+							</button>
+						</h2>
+					</div>
+					<div
+						id="collapseTwo"
+						class="collapse"
+						aria-labelledby="headingTwo"
+						data-parent="#universeDisplay"
+					>
+						<div class="card-body">
+							<canvas id="myCanvas">
+								Your browser does not support the HTML5 canvas tag.</canvas
+							>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header" id="headingThree">
+						<h2 class="mb-0">
+							<button
+								class="btn btn-link btn-block text-left collapsed"
+								type="button"
+								data-toggle="collapse"
+								data-target="#collapseThree"
+								aria-expanded="false"
+								aria-controls="collapseThree"
+							>
+								Language
+							</button>
+						</h2>
+					</div>
+					<div
+						id="collapseThree"
+						class="collapse"
+						aria-labelledby="headingThree"
+						data-parent="#universeDisplay"
+					>
+						<div class="card-body">
+							<pre id="language"></pre>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
+
+		<script>
+			function generateUniverse() {
+				let seedValue = $("#seedInput").val();
+				console.log("Seed:", seedValue);
+
+				GenerateUniverse(seedValue);
+
+				document.getElementById("list").textContent = JSON.stringify(
+					Universe,
+					undefined,
+					2
+				);
+
+				document.getElementById("language").textContent = JSON.stringify(
+					Language,
+					undefined,
+					2
+				);
+
+				generateImage();
+			}
+
+			function randomSeed() {
+				let seedGenerator = new Math.seedrandom();
+				document.getElementById("seedInput").value = Math.floor(
+					seedGenerator() * Number.MAX_SAFE_INTEGER
+				);
+			}
+
+			function generateImage() {
+				var c = document.getElementById("myCanvas");
+				c.width = 1024;
+				c.height = 1024;
+				var ctx = c.getContext("2d");
+
+				ctx.beginPath();
+				ctx.arc(100, 75, 50, 0, 2 * Math.PI);
+				ctx.stroke();
+
+				// var image = ctx.createImageData(c.width, c.height);
+				// var data = image.data;
+
+				// noise.seed(seedValue);
+
+				// for (var x = 0; x < c.width; x++) {
+				// 	for (var y = 0; y < c.height; y++) {
+				// 		var value = noise.perlin2(x / 100, y / 100);
+				// 		value *= 256;
+
+				// 		var cell = (x + y * c.width) * 4;
+				// 		data[cell] = data[cell + 1] = data[cell + 2] = value;
+				// 		data[cell + 3] = 255; // alpha.
+				// 	}
+				// }
+
+				// ctx.fillColor = "black";
+				// ctx.putImageData(image, 0, 0);
+			}
+		</script>
 	</body>
 </html>
