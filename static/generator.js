@@ -1,6 +1,5 @@
 var Universe = {};
 var Language = {};
-
 var randomGenerator;
 
 function ClearUniverse() {
@@ -122,10 +121,16 @@ function GenerateUniverse(seed) {
 			);
 
 			// Density
-			planet["Density"] = calculateDensity(planet["Mass"], planet["Diameter"]);
+			planet["Volume"] = calculateVolume(planet["Diameter"]);
+			planet["Density"] = calculateDensity(planet["Mass"], planet["Volume"]);
 
 			// Gravity
 			planet["Gravity"] = calculateSurfaceGravitY(
+				planet["Mass"],
+				planet["Diameter"]
+			);
+
+			planet["Escape Velocity"] = calculateEscapeVelocity(
 				planet["Mass"],
 				planet["Diameter"]
 			);
@@ -165,6 +170,29 @@ function GenerateUniverse(seed) {
 
 				moon["Temperature"] = getPlanetTemperature(planet["Type"]);
 				moon["Habitable"] = checkHabitability(moon["Temperature"]);
+
+				moon["Mass"] = getRandomFloat(
+					PlanetData["Dwarf Planet"]["MassRange"]["Min"],
+					PlanetData["Dwarf Planet"]["MassRange"]["Max"]
+				);
+
+				moon["Diameter"] = getRandomFloat(
+					PlanetData["Dwarf Planet"]["DiameterRange"]["Min"],
+					PlanetData["Dwarf Planet"]["DiameterRange"]["Max"]
+				);
+
+				moon["Volume"] = calculateVolume(moon["Diameter"]);
+				moon["Density"] = calculateDensity(moon["Mass"], moon["Volume"]);
+
+				moon["Gravity"] = calculateSurfaceGravitY(
+					moon["Mass"],
+					moon["Diameter"]
+				);
+
+				moon["Escape Velocity"] = calculateEscapeVelocity(
+					moon["Mass"],
+					moon["Diameter"]
+				);
 
 				moons.push(moon);
 			}
@@ -341,14 +369,29 @@ function checkHabitability(temperature) {
 	}
 }
 
-function calculateDensity(mass, diameter) {
-	mass *= 10000;
-	radius = diameter * 50000;
-	return mass / Math.pow((4 / 3) * Math.PI * radius, 3);
+function calculateDensity(mass, volume) {
+	return (mass * 1000) / (volume * 1e15);
+}
+
+function calculateVolume(diameter) {
+	return (4 / 3) * Math.PI * Math.pow(diameter * 0.5, 3);
 }
 
 function calculateSurfaceGravitY(mass, diameter) {
-	mass *= 1000;
-	radius = diameter * 50000;
-	return (6.674e-11 * mass) / Math.pow(radius, 2);
+	return (6.674e-7 * mass) / Math.pow(diameter * 50000, 2);
 }
+
+function calculateCircumference(diameter) {
+	return diameter * Math.PI;
+}
+
+function calculateEscapeVelocity(mass, diameter) {
+	return Math.sqrt((2 * 6.674e-15 * mass) / (diameter * 50000));
+}
+
+// TO DO
+// Coordinates
+// Rotation Speed
+// Orbital Speed
+// Surface Area
+// Composition
