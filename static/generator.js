@@ -59,6 +59,7 @@ function GenerateUniverse(seed) {
 		}
 
 		Universe["Stars"][i]["AsteroidBelts"] = asteroidBelts;
+		$("#progressBar").css("width", "33%");
 
 		// Create comets
 		let comets = [];
@@ -82,10 +83,11 @@ function GenerateUniverse(seed) {
 		}
 
 		Universe["Stars"][i]["Comets"] = comets;
+		$("#progressBar").css("width", "66%");
 
 		// Create Planets
 		let planets = [];
-		let numberOfPlanets = getRandomInt(0, 12);
+		let numberOfPlanets = getRandomInt(1, 12);
 
 		for (let j = 0; j < numberOfPlanets; j++) {
 			let planet = {
@@ -172,12 +174,11 @@ function GenerateUniverse(seed) {
 		}
 
 		Universe["Stars"][i]["Planets"] = planets;
+		$("#progressBar").css("width", "100%");
 	}
 }
 
-function GeneratePlanetMap() {
-  
-}
+function GeneratePlanetMap() {}
 
 function GenerateLangauge() {
 	// Determine Consonants

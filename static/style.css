@@ -1,13 +1,18 @@
 #wrapper {
-  text-align: center;
+	text-align: center;
 }
 
 .button-link {
-  margin: 5px;
-  padding:5px;
-  border: 1px solid black;
-  border-radius: 3px;
-  text-decoration: none;
-  background-color: lightgray;
-  color: black;
+	margin: 5px;
+	padding: 5px;
+	border: 1px solid black;
+	border-radius: 3px;
+	text-decoration: none;
+	background-color: lightgray;
+	color: black;
+}
+
+textarea {
+	position: absolute;
+	left: -100%;
 }
