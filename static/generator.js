@@ -160,7 +160,7 @@ function GenerateUniverse(seed) {
 
 			for (let i = 0; i < numberOfMoons; i++) {
 				let moon = {
-					Name: GenerateRandomName() + " Mooon",
+					Name: GenerateRandomName() + " Moon",
 				};
 
 				moon["Temperature"] = getPlanetTemperature(planet["Type"]);
