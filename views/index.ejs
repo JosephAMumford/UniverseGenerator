@@ -230,6 +230,14 @@
 				var ctx = c.getContext("2d");
 				c.style.backgroundColor = "rgba(32,32,32,32)";
 
+				if (systemChart) {
+					systemChart.data.labels.pop();
+					systemChart.data.datasets.forEach((dataset) => {
+						dataset.data.pop();
+					});
+					systemChart.update();
+				}
+
 				let systemChartOptions = {
 					responsive: true,
 					title: {
@@ -267,7 +275,7 @@
 
 				let chartData = GenerateSystemChart();
 
-				var myBubbleChart = new Chart(ctx, {
+				var systemChart = new Chart(ctx, {
 					type: "bubble",
 					data: chartData,
 					options: systemChartOptions,

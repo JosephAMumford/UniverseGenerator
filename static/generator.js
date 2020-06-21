@@ -391,18 +391,10 @@ function calculateEscapeVelocity(mass, diameter) {
 }
 
 function GenerateSystemChart() {
-	let chartData = {
+	let chartData = null;
+	chartData = {
 		datasets: [],
 	};
-
-	// Create Planet Data Set
-	// let planetDataSet = {
-	// 	label: "Planets",
-	// 	backgroundColor: "rgba(178, 255, 102, 255)",
-	// 	borderColor: "rgba(0, 1, 0, 0.1)",
-	// 	borderWidth: 1,
-	// 	data: [],
-	// };
 
 	let dwarfPlanetData = {
 		label: "Dwarf Planet",
@@ -441,7 +433,7 @@ function GenerateSystemChart() {
 			borderWidth: 1,
 			data: [
 				{
-					label: star["Type"],
+					label: star["Name"],
 					x: getRandomInt(-20, 20),
 					y: getRandomInt(-20, 20),
 					r: chartSizes[star["Type"]],
