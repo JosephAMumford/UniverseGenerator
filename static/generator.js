@@ -26,6 +26,7 @@ function GenerateUniverse(seed) {
 					UniverseData.StarTypes[
 						getRandomInt(0, UniverseData.StarTypes.length - 1)
 					],
+				Name: "Star " + GenerateRandomName(),
 			},
 		];
 	} else {
@@ -35,12 +36,14 @@ function GenerateUniverse(seed) {
 					UniverseData.StarTypes[
 						getRandomInt(0, UniverseData.StarTypes.length - 1)
 					],
+				Name: "Star " + GenerateRandomName(),
 			},
 			{
 				Type:
 					UniverseData.StarTypes[
 						getRandomInt(0, UniverseData.StarTypes.length - 1)
 					],
+				Name: "Star " + GenerateRandomName(),
 			},
 		];
 	}
@@ -205,8 +208,6 @@ function GenerateUniverse(seed) {
 		$("#progressBar").css("width", "100%");
 	}
 }
-
-function GeneratePlanetMap() {}
 
 function GenerateLangauge() {
 	// Determine Consonants
@@ -387,6 +388,97 @@ function calculateCircumference(diameter) {
 
 function calculateEscapeVelocity(mass, diameter) {
 	return Math.sqrt((2 * 6.674e-15 * mass) / (diameter * 50000));
+}
+
+function GenerateSystemChart() {
+	let chartData = {
+		datasets: [],
+	};
+
+	// Create Planet Data Set
+	// let planetDataSet = {
+	// 	label: "Planets",
+	// 	backgroundColor: "rgba(178, 255, 102, 255)",
+	// 	borderColor: "rgba(0, 1, 0, 0.1)",
+	// 	borderWidth: 1,
+	// 	data: [],
+	// };
+
+	let dwarfPlanetData = {
+		label: "Dwarf Planet",
+		backgroundColor: chartColors["Dwarf Planet"],
+		borderColor: "rgba(0, 1, 0, 0.1)",
+		borderWidth: 1,
+		data: [],
+	};
+	let terrestrialPlanetData = {
+		label: "Terrestrial",
+		backgroundColor: chartColors["Terrestrial"],
+		borderColor: "rgba(0, 1, 0, 0.1)",
+		borderWidth: 1,
+		data: [],
+	};
+	let gasGiantPlanetData = {
+		label: "Gas Giant",
+		backgroundColor: chartColors["Gas Giant"],
+		borderColor: "rgba(0, 1, 0, 0.1)",
+		borderWidth: 1,
+		data: [],
+	};
+	let iceGiantPlanetData = {
+		label: "Ice Giant",
+		backgroundColor: chartColors["Ice Giant"],
+		borderColor: "rgba(0, 1, 0, 0.1)",
+		borderWidth: 1,
+		data: [],
+	};
+
+	Universe["Stars"].forEach((star) => {
+		let starData = {
+			label: star["Type"],
+			backgroundColor: chartColors[star["Type"]],
+			borderColor: "rgba(0, 1, 0, 0.1)",
+			borderWidth: 1,
+			data: [
+				{
+					label: star["Type"],
+					x: getRandomInt(-20, 20),
+					y: getRandomInt(-20, 20),
+					r: chartSizes[star["Type"]],
+				},
+			],
+		};
+
+		chartData.datasets.push(starData);
+
+		star["Planets"].forEach((planet) => {
+			let planetData = {
+				label: planet["Name"],
+				x: getRandomInt(-20, 20),
+				y: getRandomInt(-20, 20),
+				r: chartSizes[planet["Type"]],
+			};
+
+			if (planet["Type"] === "Dwarf Planet") {
+				dwarfPlanetData.data.push(planetData);
+			} else if (planet["Type"] === "Terrestrial") {
+				terrestrialPlanetData.data.push(planetData);
+			} else if (planet["Type"] === "Gas Giant") {
+				gasGiantPlanetData.data.push(planetData);
+			} else {
+				iceGiantPlanetData.data.push(planetData);
+			}
+		});
+	});
+
+	chartData.datasets.push(dwarfPlanetData);
+	chartData.datasets.push(terrestrialPlanetData);
+	chartData.datasets.push(gasGiantPlanetData);
+	chartData.datasets.push(iceGiantPlanetData);
+
+	// Create Moon Data Set
+
+	return chartData;
 }
 
 // TO DO

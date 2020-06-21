@@ -40,6 +40,7 @@
 		></script>
 
 		<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+		<script src="Chart.bundle.min.js"></script>
 		<script src="perlin.js"></script>
 		<script src="dataReference.js"></script>
 		<script src="generator.js"></script>
@@ -225,12 +226,52 @@
 			function generateImage() {
 				var c = document.getElementById("myCanvas");
 				c.width = 1024;
-				c.height = 1024;
+				c.height = 769;
 				var ctx = c.getContext("2d");
+				c.style.backgroundColor = "rgba(32,32,32,32)";
 
-				ctx.beginPath();
-				ctx.arc(100, 75, 50, 0, 2 * Math.PI);
-				ctx.stroke();
+				let systemChartOptions = {
+					responsive: true,
+					title: {
+						display: true,
+						text: "System Map",
+					},
+					tooltips: {
+						callbacks: {
+							label: function (t, d) {
+								return d.datasets[t.datasetIndex].data[t.index].label;
+							},
+						},
+					},
+					scales: {
+						yAxes: [
+							{
+								display: true,
+								ticks: {
+									suggestedMin: -30,
+									suggestedMax: 30,
+								},
+							},
+						],
+						xAxes: [
+							{
+								display: true,
+								ticks: {
+									suggestedMin: -30,
+									suggestedMax: 30,
+								},
+							},
+						],
+					},
+				};
+
+				let chartData = GenerateSystemChart();
+
+				var myBubbleChart = new Chart(ctx, {
+					type: "bubble",
+					data: chartData,
+					options: systemChartOptions,
+				});
 
 				// var image = ctx.createImageData(c.width, c.height);
 				// var data = image.data;
