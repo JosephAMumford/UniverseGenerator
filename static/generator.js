@@ -60,7 +60,7 @@ function GenerateUniverse(seed) {
 			});
 		}
 
-		Universe["Stars"][i]["AsteroidBelts"] = asteroidBelts;
+		Universe["Stars"][i]["Asteroid Belts"] = asteroidBelts;
 		$("#progressBar").css("width", "33%");
 
 		// Create comets
@@ -398,28 +398,28 @@ function GenerateSystemChart() {
 
 	let dwarfPlanetData = {
 		label: "Dwarf Planet",
-		backgroundColor: chartColors["Dwarf Planet"],
+		backgroundColor: chartBackgroundColors["Dwarf Planet"],
 		borderColor: "rgba(0, 1, 0, 0.1)",
 		borderWidth: 1,
 		data: [],
 	};
 	let terrestrialPlanetData = {
 		label: "Terrestrial",
-		backgroundColor: chartColors["Terrestrial"],
+		backgroundColor: chartBackgroundColors["Terrestrial"],
 		borderColor: "rgba(0, 1, 0, 0.1)",
 		borderWidth: 1,
 		data: [],
 	};
 	let gasGiantPlanetData = {
 		label: "Gas Giant",
-		backgroundColor: chartColors["Gas Giant"],
+		backgroundColor: chartBackgroundColors["Gas Giant"],
 		borderColor: "rgba(0, 1, 0, 0.1)",
 		borderWidth: 1,
 		data: [],
 	};
 	let iceGiantPlanetData = {
 		label: "Ice Giant",
-		backgroundColor: chartColors["Ice Giant"],
+		backgroundColor: chartBackgroundColors["Ice Giant"],
 		borderColor: "rgba(0, 1, 0, 0.1)",
 		borderWidth: 1,
 		data: [],
@@ -428,8 +428,8 @@ function GenerateSystemChart() {
 	Universe["Stars"].forEach((star) => {
 		let starData = {
 			label: star["Type"],
-			backgroundColor: chartColors[star["Type"]],
-			borderColor: "rgba(0, 1, 0, 0.1)",
+			backgroundColor: chartBackgroundColors[star["Type"]],
+			borderColor: chartOutlineColors[star["Type"]],
 			borderWidth: 1,
 			data: [
 				{

@@ -307,7 +307,7 @@ const MoonData = {
 	},
 };
 
-const chartColors = {
+const chartBackgroundColors = {
 	"Dwarf Planet": "rgba(222, 184, 135, 255)",
 	Terrestrial: "rgba(160, 69, 19, 255)",
 	"Gas Giant": "rgba(218,165, 32, 255)",
@@ -325,6 +325,26 @@ const chartColors = {
 	"Red Supergiant": "rgba(255, 0, 0, 255)",
 	"Neutron star": "rgba(175, 238, 238, 255)",
 	"Black hole": "rgba(0, 0, 0, 255)",
+};
+
+const chartOutlineColors = {
+	"Dwarf Planet": "rgba(222, 184, 135, 255)",
+	Terrestrial: "rgba(160, 69, 19, 255)",
+	"Gas Giant": "rgba(218,165, 32, 255)",
+	"Ice Giant": "rgba(70, 130, 180, 255)",
+	"Black Dwarf": "rgba(32, 32, 32, 255)",
+	"White Dwarf": "rgba(255, 250, 250, 255)",
+	"Blue Dwarf": "rgba(135, 206, 250, 255)",
+	"Red Dwarf": "rgba(255, 69, 0, 255)",
+	"Planetary Nebula": "rgba(60, 179, 113, 255)",
+	"Star-forming Nebula": "rgba(138, 43, 226, 255)",
+	Protostar: "rgba(221, 160, 221, 255)",
+	"Mid-sized star": "rgba(255, 255, 0, 255)",
+	"Red Giant": "rgba(255, 69, 0, 255)",
+	"Massive Star": "rgba(244, 255, 255, 255)",
+	"Red Supergiant": "rgba(255, 0, 0, 255)",
+	"Neutron star": "rgba(175, 238, 238, 255)",
+	"Black hole": "rgba(255, 69, 0, 255)",
 };
 
 const chartSizes = {

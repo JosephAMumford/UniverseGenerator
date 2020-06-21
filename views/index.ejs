@@ -146,7 +146,7 @@
 						aria-labelledby="headingTwo"
 						data-parent="#universeDisplay"
 					>
-						<div class="card-body">
+						<div id="systemChartCanvas" class="card-body">
 							<canvas id="myCanvas">
 								Your browser does not support the HTML5 canvas tag.</canvas
 							>
@@ -213,6 +213,11 @@
 				);
 
 				//$("#progressBarMain").addClass("d-none");
+				$("#myCanvas").remove();
+				$("#systemChartCanvas").append(
+					'<canvas id="myCanvas">Your browser does not support the HTML5 canvas tag.</canvas>'
+				);
+
 				generateImage();
 			}
 
@@ -229,14 +234,6 @@
 				c.height = 769;
 				var ctx = c.getContext("2d");
 				c.style.backgroundColor = "rgba(32,32,32,32)";
-
-				if (systemChart) {
-					systemChart.data.labels.pop();
-					systemChart.data.datasets.forEach((dataset) => {
-						dataset.data.pop();
-					});
-					systemChart.update();
-				}
 
 				let systemChartOptions = {
 					responsive: true,
