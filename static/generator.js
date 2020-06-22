@@ -18,6 +18,7 @@ function GenerateUniverse(seed) {
 			getRandomInt(0, UniverseData.SystemType.length - 1)
 		];
 
+	Universe["Name"] = GenerateRandomName() + " System";
 	Universe["Stars"] = [];
 
 	// Create Star Type
@@ -195,7 +196,10 @@ function GenerateUniverse(seed) {
 					Name: GenerateRandomName() + " Moon",
 				};
 
-				moon["Temperature"] = getPlanetTemperature(planet["Type"]);
+				moon["Temperature"] = getPlanetTemperature(
+					planet["Type"],
+					planet["Class"]
+				);
 				moon["Habitable"] = checkHabitability(moon["Temperature"]);
 
 				moon["Mass"] = getRandomFloat(
@@ -221,6 +225,13 @@ function GenerateUniverse(seed) {
 					moon["Diameter"]
 				);
 
+				let theta = getRandomFloat(0.0, 2 * Math.PI);
+				let distance = getRandomFloat(0.002, 0.2);
+				moon["Coordinate"] = {
+					x: planet["Coordinate"]["x"] + distance * Math.cos(theta),
+					y: planet["Coordinate"]["y"] - distance * Math.sin(theta),
+				};
+
 				moons.push(moon);
 			}
 			planet["Moons"] = moons;
@@ -233,106 +244,6 @@ function GenerateUniverse(seed) {
 	}
 }
 
-function GenerateLangauge() {
-	// Determine Consonants
-	let consonants = [];
-	LanguageData.Consonants.forEach((consonant) => {
-		let chance = getRandomInt(0, 100);
-		if (chance < 95) {
-			consonants.push(consonant);
-		}
-	});
-
-	Language["Consonants"] = consonants;
-
-	//Detemine Dipthongs
-	let dipthongs = [];
-	LanguageData.Diphthongs.forEach((dipthong) => {
-		let chance = getRandomInt(0, 100);
-		if (chance < 75) {
-			dipthongs.push(dipthong);
-		}
-	});
-
-	Language["Diphthongs"] = dipthongs;
-	Language["Vowels"] = LanguageData.Vowels;
-}
-
-function GenerateRandomName() {
-	let name = "";
-
-	let numberOfSyllables = getRandomInt(2, 5);
-	let ConsonantsLength = Language["Consonants"].length - 1;
-	let DipthongsLength = Language["Diphthongs"].length - 1;
-
-	for (let i = 0; i < numberOfSyllables; i++) {
-		let syllableType =
-			LanguageData.SyllableType[
-				getRandomInt(0, LanguageData.SyllableType.length - 1)
-			];
-		switch (syllableType) {
-			case "a":
-				name += Language["Vowels"][getRandomInt(0, 4)];
-				break;
-			case "ac":
-				name +=
-					Language["Vowels"][getRandomInt(0, 4)] +
-					Language["Consonants"][getRandomInt(0, ConsonantsLength)];
-				break;
-			case "ca":
-				name +=
-					Language["Consonants"][getRandomInt(0, ConsonantsLength)] +
-					Language["Vowels"][getRandomInt(0, 4)];
-				break;
-			case "aca":
-				name +=
-					Language["Vowels"][getRandomInt(0, 4)] +
-					Language["Consonants"][getRandomInt(0, ConsonantsLength)] +
-					Language["Vowels"][getRandomInt(0, 4)];
-				break;
-			case "cac":
-				name +=
-					Language["Consonants"][getRandomInt(0, ConsonantsLength)] +
-					Language["Vowels"][getRandomInt(0, 4)] +
-					Language["Consonants"][getRandomInt(0, ConsonantsLength)];
-				break;
-			case "d":
-				name += Language["Diphthongs"][getRandomInt(0, DipthongsLength)];
-				break;
-			case "dc":
-				name +=
-					Language["Diphthongs"][getRandomInt(0, DipthongsLength)] +
-					Language["Consonants"][getRandomInt(0, ConsonantsLength)];
-				break;
-			case "cd":
-				name +=
-					Language["Consonants"][getRandomInt(0, ConsonantsLength)] +
-					Language["Diphthongs"][getRandomInt(0, DipthongsLength)];
-				break;
-			case "acd":
-				name +=
-					Language["Vowels"][getRandomInt(0, 4)] +
-					Language["Diphthongs"][getRandomInt(0, DipthongsLength)] +
-					Language["Consonants"][getRandomInt(0, ConsonantsLength)];
-				break;
-			case "dca":
-				name +=
-					Language["Diphthongs"][getRandomInt(0, DipthongsLength)] +
-					Language["Consonants"][getRandomInt(0, ConsonantsLength)] +
-					Language["Vowels"][getRandomInt(0, 4)];
-				break;
-			case "cdc":
-				name +=
-					Language["Consonants"][getRandomInt(0, ConsonantsLength)] +
-					Language["Diphthongs"][getRandomInt(0, DipthongsLength)] +
-					Language["Consonants"][getRandomInt(0, ConsonantsLength)];
-				break;
-			default:
-				break;
-		}
-	}
-	return name.capitalize();
-}
 
 function getGasGiantClass() {
 	let classType = getRandomInt(1, 5);
@@ -497,8 +408,8 @@ function GenerateSystemChart() {
 			planet["Moons"].forEach((moon) => {
 				let moonData = {
 					label: moon["Name"],
-					x: planet["Coordinate"]["x"] + getRandomFloat(0.0, 1.0),
-					y: planet["Coordinate"]["y"] + getRandomFloat(0.0, 1.0),
+					x: moon["Coordinate"]["x"],
+					y: moon["Coordinate"]["y"],
 					r: 2,
 				};
 

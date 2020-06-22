@@ -41,8 +41,11 @@
 
 		<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
 		<script src="Chart.bundle.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
 		<script src="perlin.js"></script>
 		<script src="dataReference.js"></script>
+		<script src="language.js"></script>
 		<script src="generator.js"></script>
 		<script src="utilities.js"></script>
 	</head>
@@ -53,7 +56,7 @@
 			<div class="input-group mb-3 w-50">
 				<div class="input-group-prepend">
 					<button
-						class="btn btn-outline-primary"
+						class="btn btn-primary"
 						type="button"
 						id="seedButton"
 						onclick="randomSeed()"
@@ -72,7 +75,7 @@
 				<div class="input-group-append">
 					<button
 						type="button"
-						class="btn btn-outline-primary"
+						class="btn btn-primary"
 						onclick="generateUniverse()"
 					>
 						Generate
@@ -93,25 +96,25 @@
 			<div class="accordion" id="universeDisplay">
 				<div class="card">
 					<div class="card-header" id="headingOne">
-						<!-- <h2 class="mb-0"> -->
-						<button
-							class="btn btn-link text-left w-75"
-							type="button"
-							data-toggle="collapse"
-							data-target="#collapseOne"
-							aria-expanded="true"
-							aria-controls="collapseOne"
-						>
-							System Information
-						</button>
-						<button
-							class="btn btn-outline-primary"
-							type="button"
-							onclick="copyInfo()"
-						>
-							Copy
-						</button>
-						<!-- </h2> -->
+						<h2 class="mb-0">
+							<button
+								class="btn text-left w-75"
+								type="button"
+								data-toggle="collapse"
+								data-target="#collapseOne"
+								aria-expanded="true"
+								aria-controls="collapseOne"
+							>
+								System Information
+							</button>
+							<button
+								class="btn btn-outline-primary float-right"
+								type="button"
+								onclick="copyInfo()"
+							>
+								Copy
+							</button>
+						</h2>
 					</div>
 
 					<div
@@ -121,6 +124,42 @@
 						data-parent="#universeDisplay"
 					>
 						<div class="card-body">
+							<table class="table table-sm table-bordered">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Unit</th>
+										<th>Name</th>
+										<th>Unit</th>
+										<th>Name</th>
+										<th>Unit</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Diameter</td>
+										<td>Kilometer (km)</td>
+										<td>Distance</td>
+										<td>Astronomical Unit (AU)</td>
+										<td>Escape Velocity</td>
+										<td>km/s</td>
+									</tr>
+									<tr>
+										<td>Mass</td>
+										<td>Kilogram (kg)</td>
+										<td>Density</td>
+										<td>g/cm<sup>3</sup></td>
+										<td>Volume</td>
+										<td>km<sup>3</sup></td>
+									</tr>
+									<tr>
+										<td>Gravity</td>
+										<td>m/s<sup>2</sup></td>
+										<td>Temperature</td>
+										<td>Celcius (c)</td>
+									</tr>
+								</tbody>
+							</table>
 							<pre id="list"></pre>
 						</div>
 					</div>
@@ -129,7 +168,7 @@
 					<div class="card-header" id="headingTwo">
 						<h2 class="mb-0">
 							<button
-								class="btn btn-link btn-block text-left collapsed"
+								class="btn text-left collapsed w-75"
 								type="button"
 								data-toggle="collapse"
 								data-target="#collapseTwo"
@@ -137,6 +176,13 @@
 								aria-controls="collapseTwo"
 							>
 								Map
+							</button>
+							<button
+								class="btn btn-outline-primary float-right"
+								type="button"
+								onclick="resetZoom()"
+							>
+								Reset Zoom
 							</button>
 						</h2>
 					</div>
@@ -147,6 +193,8 @@
 						data-parent="#universeDisplay"
 					>
 						<div id="systemChartContainer" class="card-body">
+							<h3 id="systemChartHeader"></h3>
+							<p id="systemChartInfo"></p>
 							<canvas id="systemChartCanvas">
 								Your browser does not support the HTML5 canvas tag.</canvas
 							>
@@ -157,7 +205,7 @@
 					<div class="card-header" id="headingThree">
 						<h2 class="mb-0">
 							<button
-								class="btn btn-link btn-block text-left collapsed"
+								class="btn btn-block text-left collapsed"
 								type="button"
 								data-toggle="collapse"
 								data-target="#collapseThree"
@@ -183,6 +231,10 @@
 		</div>
 
 		<script>
+			window.onload = function () {
+				document.getElementById("seedInput").value = "";
+			};
+
 			function copyInfo() {
 				const copyText = document.getElementById("list").textContent;
 				const textArea = document.createElement("textArea");
@@ -228,6 +280,10 @@
 				);
 			}
 
+			function resetZoom() {
+				window.systemChart.resetZoom();
+			}
+
 			function generateMaps() {
 				var systemChartCanvas = document.getElementById("systemChartCanvas");
 				systemChartCanvas.width = 1024;
@@ -253,8 +309,13 @@
 							{
 								display: true,
 								ticks: {
-									suggestedMin: -30,
-									suggestedMax: 30,
+									suggestedMin: -30.0,
+									suggestedMax: 30.0,
+									precision: 2,
+								},
+								scaleLabel: {
+									display: true,
+									labelString: "AU",
 								},
 							},
 						],
@@ -262,11 +323,51 @@
 							{
 								display: true,
 								ticks: {
-									suggestedMin: -30,
-									suggestedMax: 30,
+									suggestedMin: -30.0,
+									suggestedMax: 30.0,
+									precision: 2,
+								},
+								scaleLabel: {
+									display: true,
+									labelString: "AU",
 								},
 							},
 						],
+					},
+					plugins: {
+						zoom: {
+							pan: {
+								enabled: true,
+								mode: "xy",
+								rangeMin: {
+									x: null,
+									y: null,
+								},
+								rangeMax: {
+									x: null,
+									y: null,
+								},
+								speed: 20,
+								threshold: 10,
+							},
+							zoom: {
+								enabled: true,
+								drag: false,
+								mode: "xy",
+
+								rangeMin: {
+									x: null,
+									y: null,
+								},
+								rangeMax: {
+									x: null,
+									y: null,
+								},
+								speed: 0.1,
+								threshold: 2,
+								sensitivity: 3,
+							},
+						},
 					},
 				};
 
@@ -277,6 +378,31 @@
 					data: systemChartData,
 					options: systemChartOptions,
 				});
+
+				window.systemChart = systemChart;
+
+				document.getElementById("systemChartHeader").innerText =
+					Universe["Name"];
+
+				if (Universe["System"] === "Single") {
+					let totalPlanets = Universe["Stars"][0]["Planets"].length;
+					let lifeString = Universe["Life"]
+						? `This system contains life`
+						: `This system does not contain life`;
+					document.getElementById(
+						"systemChartInfo"
+					).innerText = `This ${Universe["System"]} star system contains ${totalPlanets} planets. ${lifeString}`;
+				} else {
+					let totalPlanets =
+						Universe["Stars"][0]["Planets"].length +
+						Universe["Stars"][1]["Planets"].length;
+					let lifeString = Universe["Life"]
+						? `This system contains life`
+						: `This system does not contain life`;
+					document.getElementById(
+						"systemChartInfo"
+					).innerText = `This ${Universe["System"]} star system contains ${totalPlanets} planets. ${lifeString}`;
+				}
 
 				// var image = ctx.createImageData(c.width, c.height);
 				// var data = image.data;
