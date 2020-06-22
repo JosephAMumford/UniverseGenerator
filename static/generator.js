@@ -244,7 +244,6 @@ function GenerateUniverse(seed) {
 	}
 }
 
-
 function getGasGiantClass() {
 	let classType = getRandomInt(1, 5);
 	if (classType === 1) {
@@ -427,6 +426,23 @@ function GenerateSystemChart() {
 	return chartData;
 }
 
+function getSystemDescription() {
+	let totalPlanets = 0;
+	let totalMoons = 0;
+	let lifeString = Universe["Life"]
+		? `This system contains life`
+		: `This system does not contain life`;
+
+	Universe["Stars"].forEach((star) => {
+		totalPlanets += star["Planets"].length;
+
+		star["Planets"].forEach((planet) => {
+			totalMoons += planet["Moons"].length;
+		});
+	});
+
+	return `This ${Universe["System"]} star system contains ${totalPlanets} planets and ${totalMoons} moons. ${lifeString}`;
+}
 // TO DO
 // Coordinates
 // Rotation Speed

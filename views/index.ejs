@@ -42,7 +42,8 @@
 		<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
 		<script src="Chart.bundle.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
-		<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
+		<!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script> -->
+		<script src="chartjs-plugin-zoom.js"></script>
 		<script src="perlin.js"></script>
 		<script src="dataReference.js"></script>
 		<script src="language.js"></script>
@@ -156,7 +157,7 @@
 										<td>Gravity</td>
 										<td>m/s<sup>2</sup></td>
 										<td>Temperature</td>
-										<td>Celcius (c)</td>
+										<td>Celsius (c)</td>
 									</tr>
 								</tbody>
 							</table>
@@ -384,25 +385,9 @@
 				document.getElementById("systemChartHeader").innerText =
 					Universe["Name"];
 
-				if (Universe["System"] === "Single") {
-					let totalPlanets = Universe["Stars"][0]["Planets"].length;
-					let lifeString = Universe["Life"]
-						? `This system contains life`
-						: `This system does not contain life`;
-					document.getElementById(
-						"systemChartInfo"
-					).innerText = `This ${Universe["System"]} star system contains ${totalPlanets} planets. ${lifeString}`;
-				} else {
-					let totalPlanets =
-						Universe["Stars"][0]["Planets"].length +
-						Universe["Stars"][1]["Planets"].length;
-					let lifeString = Universe["Life"]
-						? `This system contains life`
-						: `This system does not contain life`;
-					document.getElementById(
-						"systemChartInfo"
-					).innerText = `This ${Universe["System"]} star system contains ${totalPlanets} planets. ${lifeString}`;
-				}
+				document.getElementById(
+					"systemChartInfo"
+				).innerText = getSystemDescription();
 
 				// var image = ctx.createImageData(c.width, c.height);
 				// var data = image.data;
