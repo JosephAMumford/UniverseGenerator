@@ -146,8 +146,8 @@
 						aria-labelledby="headingTwo"
 						data-parent="#universeDisplay"
 					>
-						<div id="systemChartCanvas" class="card-body">
-							<canvas id="myCanvas">
+						<div id="systemChartContainer" class="card-body">
+							<canvas id="systemChartCanvas">
 								Your browser does not support the HTML5 canvas tag.</canvas
 							>
 						</div>
@@ -212,13 +212,13 @@
 					2
 				);
 
-				//$("#progressBarMain").addClass("d-none");
-				$("#myCanvas").remove();
-				$("#systemChartCanvas").append(
-					'<canvas id="myCanvas">Your browser does not support the HTML5 canvas tag.</canvas>'
+				// Re-Create System Chart
+				$("#systemChartCanvas").remove();
+				$("#systemChartContainer").append(
+					'<canvas id="systemChartCanvas">Your browser does not support the HTML5 canvas tag.</canvas>'
 				);
 
-				generateImage();
+				generateMaps();
 			}
 
 			function randomSeed() {
@@ -228,12 +228,12 @@
 				);
 			}
 
-			function generateImage() {
-				var c = document.getElementById("myCanvas");
-				c.width = 1024;
-				c.height = 769;
-				var ctx = c.getContext("2d");
-				c.style.backgroundColor = "rgba(32,32,32,32)";
+			function generateMaps() {
+				var systemChartCanvas = document.getElementById("systemChartCanvas");
+				systemChartCanvas.width = 1024;
+				systemChartCanvas.height = 769;
+				var systemChartContext = systemChartCanvas.getContext("2d");
+				systemChartCanvas.style.backgroundColor = "rgba(32,32,32,1)";
 
 				let systemChartOptions = {
 					responsive: true,
@@ -270,11 +270,11 @@
 					},
 				};
 
-				let chartData = GenerateSystemChart();
+				let systemChartData = GenerateSystemChart();
 
-				var systemChart = new Chart(ctx, {
+				var systemChart = new Chart(systemChartContext, {
 					type: "bubble",
-					data: chartData,
+					data: systemChartData,
 					options: systemChartOptions,
 				});
 

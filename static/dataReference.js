@@ -176,6 +176,261 @@ const CometData = {
 	},
 };
 
+const StarData = {
+	"Black Dwarf": {
+		DiameterRange: {
+			Min: 0,
+			Max: 0,
+		},
+		MassRange: {
+			Min: 0,
+			Max: 0,
+		},
+		DensityRange: {
+			Min: 0,
+			Max: 0,
+		},
+		TemperatureRange: {
+			Min: 0,
+			Max: 0,
+		},
+	},
+	"White Dwarf": {
+		DiameterRange: {
+			Min: 0,
+			Max: 0,
+		},
+		MassRange: {
+			Min: 0,
+			Max: 0,
+		},
+		DensityRange: {
+			Min: 0,
+			Max: 0,
+		},
+		TemperatureRange: {
+			Min: 0,
+			Max: 0,
+		},
+	},
+	"Blue Dwarf": {
+		DiameterRange: {
+			Min: 0,
+			Max: 0,
+		},
+		MassRange: {
+			Min: 0,
+			Max: 0,
+		},
+		DensityRange: {
+			Min: 0,
+			Max: 0,
+		},
+		TemperatureRange: {
+			Min: 0,
+			Max: 0,
+		},
+	},
+	"Red Dwarf": {
+		DiameterRange: {
+			Min: 0,
+			Max: 0,
+		},
+		MassRange: {
+			Min: 0,
+			Max: 0,
+		},
+		DensityRange: {
+			Min: 0,
+			Max: 0,
+		},
+		TemperatureRange: {
+			Min: 0,
+			Max: 0,
+		},
+	},
+	"Planetary Nebula": {
+		DiameterRange: {
+			Min: 0,
+			Max: 0,
+		},
+		MassRange: {
+			Min: 0,
+			Max: 0,
+		},
+		DensityRange: {
+			Min: 0,
+			Max: 0,
+		},
+		TemperatureRange: {
+			Min: 0,
+			Max: 0,
+		},
+	},
+	"Star-forming Nebula": {
+		DiameterRange: {
+			Min: 0,
+			Max: 0,
+		},
+		MassRange: {
+			Min: 0,
+			Max: 0,
+		},
+		DensityRange: {
+			Min: 0,
+			Max: 0,
+		},
+		TemperatureRange: {
+			Min: 0,
+			Max: 0,
+		},
+	},
+	Protostar: {
+		DiameterRange: {
+			Min: 0,
+			Max: 0,
+		},
+		MassRange: {
+			Min: 0,
+			Max: 0,
+		},
+		DensityRange: {
+			Min: 0,
+			Max: 0,
+		},
+		TemperatureRange: {
+			Min: 0,
+			Max: 0,
+		},
+	},
+	"Mid-sized star": {
+		DiameterRange: {
+			Min: 0,
+			Max: 0,
+		},
+		MassRange: {
+			Min: 0,
+			Max: 0,
+		},
+		DensityRange: {
+			Min: 0,
+			Max: 0,
+		},
+		TemperatureRange: {
+			Min: 0,
+			Max: 0,
+		},
+	},
+	"Red Giant": {
+		DiameterRange: {
+			Min: 0,
+			Max: 0,
+		},
+		MassRange: {
+			Min: 0,
+			Max: 0,
+		},
+		DensityRange: {
+			Min: 0,
+			Max: 0,
+		},
+		TemperatureRange: {
+			Min: 0,
+			Max: 0,
+		},
+	},
+	Protostar: {
+		DiameterRange: {
+			Min: 0,
+			Max: 0,
+		},
+		MassRange: {
+			Min: 0,
+			Max: 0,
+		},
+		DensityRange: {
+			Min: 0,
+			Max: 0,
+		},
+		TemperatureRange: {
+			Min: 0,
+			Max: 0,
+		},
+	},
+	"Massive Star": {
+		DiameterRange: {
+			Min: 0,
+			Max: 0,
+		},
+		MassRange: {
+			Min: 0,
+			Max: 0,
+		},
+		DensityRange: {
+			Min: 0,
+			Max: 0,
+		},
+		TemperatureRange: {
+			Min: 0,
+			Max: 0,
+		},
+	},
+	"Red Supergiant": {
+		DiameterRange: {
+			Min: 0,
+			Max: 0,
+		},
+		MassRange: {
+			Min: 0,
+			Max: 0,
+		},
+		DensityRange: {
+			Min: 0,
+			Max: 0,
+		},
+		TemperatureRange: {
+			Min: 0,
+			Max: 0,
+		},
+	},
+	"Neutron star": {
+		DiameterRange: {
+			Min: 0,
+			Max: 0,
+		},
+		MassRange: {
+			Min: 0,
+			Max: 0,
+		},
+		DensityRange: {
+			Min: 0,
+			Max: 0,
+		},
+		TemperatureRange: {
+			Min: 0,
+			Max: 0,
+		},
+	},
+	"Black hole": {
+		DiameterRange: {
+			Min: 0,
+			Max: 0,
+		},
+		MassRange: {
+			Min: 0,
+			Max: 0,
+		},
+		DensityRange: {
+			Min: 0,
+			Max: 0,
+		},
+		TemperatureRange: {
+			Min: 0,
+			Max: 0,
+		},
+	},
+};
+
 const PlanetData = {
 	"Dwarf Planet": {
 		Rings: true,
@@ -325,6 +580,7 @@ const chartBackgroundColors = {
 	"Red Supergiant": "rgba(255, 0, 0, 255)",
 	"Neutron star": "rgba(175, 238, 238, 255)",
 	"Black hole": "rgba(0, 0, 0, 255)",
+	Moon: "rgba(105,105,105,1)",
 };
 
 const chartOutlineColors = {
@@ -345,6 +601,7 @@ const chartOutlineColors = {
 	"Red Supergiant": "rgba(255, 0, 0, 255)",
 	"Neutron star": "rgba(175, 238, 238, 255)",
 	"Black hole": "rgba(255, 69, 0, 255)",
+	Moon: "rgba(245,255,250,1)",
 };
 
 const chartSizes = {

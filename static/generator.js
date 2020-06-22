@@ -18,34 +18,45 @@ function GenerateUniverse(seed) {
 			getRandomInt(0, UniverseData.SystemType.length - 1)
 		];
 
+	Universe["Stars"] = [];
+
 	// Create Star Type
 	if (Universe["System"] === "Single") {
-		Universe["Stars"] = [
-			{
-				Type:
-					UniverseData.StarTypes[
-						getRandomInt(0, UniverseData.StarTypes.length - 1)
-					],
-				Name: "Star " + GenerateRandomName(),
-			},
-		];
+		let star = {
+			Type:
+				UniverseData.StarTypes[
+					getRandomInt(0, UniverseData.StarTypes.length - 1)
+				],
+			Name: "Star " + GenerateRandomName(),
+		};
+		star["Diameter"] = getRandomFloat(
+			StarData[star.Type]["DiameterRange"]["Min"],
+			StarData[star.Type]["DiameterRange"]["Max"]
+		);
+		star["Coordinate"] = {
+			x: 0,
+			y: 0,
+		};
+		Universe["Stars"].push(star);
 	} else {
-		Universe["Stars"] = [
-			{
+		for (let i = 0; i < 2; i++) {
+			let star = {
 				Type:
 					UniverseData.StarTypes[
 						getRandomInt(0, UniverseData.StarTypes.length - 1)
 					],
 				Name: "Star " + GenerateRandomName(),
-			},
-			{
-				Type:
-					UniverseData.StarTypes[
-						getRandomInt(0, UniverseData.StarTypes.length - 1)
-					],
-				Name: "Star " + GenerateRandomName(),
-			},
-		];
+			};
+			star["Diameter"] = getRandomFloat(
+				StarData[star.Type]["DiameterRange"]["Min"],
+				StarData[star.Type]["DiameterRange"]["Max"]
+			);
+			star["Coordinate"] = {
+				x: getRandomFloat(0, 10),
+				y: getRandomFloat(0, 10),
+			};
+			Universe["Stars"].push(star);
+		}
 	}
 
 	// Create System Components
@@ -88,6 +99,8 @@ function GenerateUniverse(seed) {
 		$("#progressBar").css("width", "66%");
 
 		// Create Planets
+		let starCenterX = Universe["Stars"][i]["Coordinate"]["x"];
+		let starCenterY = Universe["Stars"][i]["Coordinate"]["y"];
 		let planets = [];
 		let numberOfPlanets = getRandomInt(1, 12);
 
@@ -111,6 +124,16 @@ function GenerateUniverse(seed) {
 				planet["Rings"] = false;
 			}
 
+			// Coordinate
+			let theta = getRandomFloat(0.0, 2 * Math.PI);
+			let distance = getRandomFloat(0.25, 30);
+			planet["Coordinate"] = {
+				x: starCenterX + distance * Math.cos(theta),
+				y: starCenterY - distance * Math.sin(theta),
+			};
+
+			planet["Perihelion"] = distance;
+
 			// Diameter
 			planet["Diameter"] = getRandomFloat(
 				PlanetData[planet.Type]["DiameterRange"]["Min"],
@@ -133,6 +156,7 @@ function GenerateUniverse(seed) {
 				planet["Diameter"]
 			);
 
+			// Escape Velocity
 			planet["Escape Velocity"] = calculateEscapeVelocity(
 				planet["Mass"],
 				planet["Diameter"]
@@ -399,28 +423,37 @@ function GenerateSystemChart() {
 	let dwarfPlanetData = {
 		label: "Dwarf Planet",
 		backgroundColor: chartBackgroundColors["Dwarf Planet"],
-		borderColor: "rgba(0, 1, 0, 0.1)",
+		borderColor: chartOutlineColors["Dwarf Planet"],
 		borderWidth: 1,
 		data: [],
 	};
 	let terrestrialPlanetData = {
 		label: "Terrestrial",
 		backgroundColor: chartBackgroundColors["Terrestrial"],
-		borderColor: "rgba(0, 1, 0, 0.1)",
+		borderColor: chartOutlineColors["Terrestrial"],
 		borderWidth: 1,
 		data: [],
 	};
 	let gasGiantPlanetData = {
 		label: "Gas Giant",
 		backgroundColor: chartBackgroundColors["Gas Giant"],
-		borderColor: "rgba(0, 1, 0, 0.1)",
+		borderColor: chartOutlineColors["Gas Giant"],
 		borderWidth: 1,
 		data: [],
 	};
 	let iceGiantPlanetData = {
 		label: "Ice Giant",
 		backgroundColor: chartBackgroundColors["Ice Giant"],
-		borderColor: "rgba(0, 1, 0, 0.1)",
+		borderColor: chartOutlineColors["Ice Giant"],
+		borderWidth: 1,
+		data: [],
+	};
+
+	// Create Moon Data Set
+	let planetMoonData = {
+		label: "Moons",
+		backgroundColor: chartBackgroundColors["Moon"],
+		borderColor: chartBackgroundColors["Moon"],
 		borderWidth: 1,
 		data: [],
 	};
@@ -434,8 +467,8 @@ function GenerateSystemChart() {
 			data: [
 				{
 					label: star["Name"],
-					x: getRandomInt(-20, 20),
-					y: getRandomInt(-20, 20),
+					x: star["Coordinate"]["x"],
+					y: star["Coordinate"]["y"],
 					r: chartSizes[star["Type"]],
 				},
 			],
@@ -446,8 +479,8 @@ function GenerateSystemChart() {
 		star["Planets"].forEach((planet) => {
 			let planetData = {
 				label: planet["Name"],
-				x: getRandomInt(-20, 20),
-				y: getRandomInt(-20, 20),
+				x: planet["Coordinate"]["x"],
+				y: planet["Coordinate"]["y"],
 				r: chartSizes[planet["Type"]],
 			};
 
@@ -460,6 +493,17 @@ function GenerateSystemChart() {
 			} else {
 				iceGiantPlanetData.data.push(planetData);
 			}
+
+			planet["Moons"].forEach((moon) => {
+				let moonData = {
+					label: moon["Name"],
+					x: planet["Coordinate"]["x"] + getRandomFloat(0.0, 1.0),
+					y: planet["Coordinate"]["y"] + getRandomFloat(0.0, 1.0),
+					r: 2,
+				};
+
+				planetMoonData.data.push(moonData);
+			});
 		});
 	});
 
@@ -467,8 +511,7 @@ function GenerateSystemChart() {
 	chartData.datasets.push(terrestrialPlanetData);
 	chartData.datasets.push(gasGiantPlanetData);
 	chartData.datasets.push(iceGiantPlanetData);
-
-	// Create Moon Data Set
+	chartData.datasets.push(planetMoonData);
 
 	return chartData;
 }
