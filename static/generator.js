@@ -443,8 +443,8 @@ function getSystemDescription() {
 
 	return `This ${Universe["System"]} star system contains ${totalPlanets} planets and ${totalMoons} moons. ${lifeString}`;
 }
+
 // TO DO
-// Coordinates
 // Rotation Speed
 // Orbital Speed
 // Surface Area
