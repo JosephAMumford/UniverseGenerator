@@ -217,6 +217,192 @@
 							<canvas id="planetChartCanvas">
 								Your browser does not support the HTML5 canvas tag.</canvas
 							>
+							<div style="display: inline-block;">
+								<div class="form-group">
+									<label for="masterScaleRange"
+										>Master Scale<span id="masterScaleValue"></span
+									></label>
+									<input
+										type="range"
+										min="0"
+										max="20"
+										value="20"
+										class="form-control-range w-25"
+										id="masterScaleRange"
+										oninput="generatePlanetMap()"
+									/>
+								</div>
+								<div class="form-group">
+									<label for="humidityRange"
+										>Humidity<span id="humidityValue"></span
+									></label>
+									<input
+										type="range"
+										min="0"
+										max="100"
+										value="100"
+										class="form-control-range w-25"
+										id="humidityRange"
+										oninput="generatePlanetMap()"
+									/>
+								</div>
+								<div class="form-group">
+									<label for="temperatureRange"
+										>Temperature<span id="temperatureValue"></span
+									></label>
+									<input
+										type="range"
+										min="0"
+										max="100"
+										value="100"
+										class="form-control-range w-25"
+										id="temperatureRange"
+										oninput="generatePlanetMap()"
+									/>
+								</div>
+								<div class="form-group">
+									<label for="heightRange"
+										>Height<span id="heightValue"></span
+									></label>
+									<input
+										type="range"
+										min="0"
+										max="100"
+										value="100"
+										class="form-control-range w-25"
+										id="heightRange"
+										oninput="generatePlanetMap()"
+									/>
+								</div>
+								<div class="form-group">
+									<label for="noise1Range"
+										>Noise 1<span id="noise1Value"></span
+									></label>
+									<input
+										type="range"
+										min="0"
+										max="100"
+										value="100"
+										class="form-control-range w-25"
+										id="noise1Range"
+										oninput="generatePlanetMap()"
+									/>
+								</div>
+								<div class="form-group">
+									<label for="baseRange"
+										>Base<span id="baseValue"></span
+									></label>
+									<input
+										type="range"
+										min="0"
+										max="100"
+										value="100"
+										class="form-control-range w-25"
+										id="baseRange"
+										oninput="generatePlanetMap()"
+									/>
+								</div>
+							</div>
+							<div style="display: inline-block;">
+								<div class="form-group">
+									<label for="seaLevelRange"
+										>Sea Level<span id="seaLevelValue"></span
+									></label>
+									<input
+										type="range"
+										min="0"
+										max="100"
+										value="30"
+										class="form-control-range w-25"
+										id="seaLevelRange"
+										oninput="generatePlanetMap()"
+									/>
+								</div>
+								<div class="form-group">
+									<label for="noise2Range"
+										>Noise 2<span id="noise2Value"></span
+									></label>
+									<input
+										type="range"
+										min="0"
+										max="100"
+										value="100"
+										class="form-control-range w-25"
+										id="noise2Range"
+										oninput="generatePlanetMap()"
+									/>
+								</div>
+								<div class="form-group">
+									<label for="roughRange"
+										>Rough<span id="roughValue"></span
+									></label>
+									<input
+										type="range"
+										min="0"
+										max="100"
+										value="100"
+										class="form-control-range w-25"
+										id="roughRange"
+										oninput="generatePlanetMap()"
+									/>
+								</div>
+								<div class="form-group">
+									<label for="detailRange"
+										>Detail<span id="detailValue"></span
+									></label>
+									<input
+										type="range"
+										min="0"
+										max="100"
+										value="100"
+										class="form-control-range w-25"
+										id="detailRange"
+										oninput="generatePlanetMap()"
+									/>
+								</div>
+								<div class="form-group">
+									<label for="noise3Range"
+										>Noise 3<span id="noise3Value"></span
+									></label>
+									<input
+										type="range"
+										min="0"
+										max="100"
+										value="100"
+										class="form-control-range w-25"
+										id="noise3Range"
+										oninput="generatePlanetMap()"
+									/>
+								</div>
+								<div class="form-group">
+									<label for="negativeRange"
+										>Negative<span id="negativeValue"></span
+									></label>
+									<input
+										type="range"
+										min="0"
+										max="100"
+										value="100"
+										class="form-control-range w-25"
+										id="negativeRange"
+										oninput="generatePlanetMap()"
+									/>
+								</div>
+								<div class="form-group">
+									<label for="noise4Range"
+										>Noise 4<span id="noise4Value"></span
+									></label>
+									<input
+										type="range"
+										min="0"
+										max="100"
+										value="100"
+										class="form-control-range w-25"
+										id="noise4Range"
+										oninput="generatePlanetMap()"
+									/>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -421,15 +607,16 @@
 
 				generatePlanetMap();
 			}
+
 			var MapSize = 512;
 			var WorldHumidity;
 			var WorldTemperature;
 			var WorldHeight;
-			var BaseT = 1.0;
-			var RoughT = 1.0;
-			var DetailT = 1.0;
-			var NegaT = 1.0;
-			var MasterScale = 1.0;
+			var BaseScale = 1.0;
+			var RoughScale = 1.0;
+			var DetailScale = 1.0;
+			var NegativeScale = 1.0;
+			var MasterScale = $("#masterScaleRange").val() / 100.0;
 			var SeaLevel;
 			var NoiseOrigin1x;
 			var NoiseOrigin1z;
@@ -455,15 +642,82 @@
 			var NoiseScale4z;
 
 			function generatePlanetMap() {
+				// Get Inputs
+				MasterScale = $("#masterScaleRange").val() / 100.0;
+				document.getElementById(
+					"masterScaleValue"
+				).innerText = ` ${MasterScale.toString()}`;
+
+				WorldHumidity = $("#humidityRange").val() / 100.0;
+				document.getElementById(
+					"humidityValue"
+				).innerText = ` ${WorldHumidity.toString()}`;
+
+				WorldTemperature = $("#temperatureRange").val() / 100.0;
+				document.getElementById(
+					"temperatureValue"
+				).innerText = ` ${WorldTemperature.toString()}`;
+
+				WorldHeight = $("#heightRange").val() / 100.0;
+				document.getElementById(
+					"heightValue"
+				).innerText = ` ${WorldHeight.toString()}`;
+
+				NoiseScale1x = $("#noise1Range").val() / 100.0;
+				document.getElementById(
+					"noise1Value"
+				).innerText = ` ${NoiseScale1x.toString()}`;
+
+				BaseScale = $("#baseRange").val() / 100.0;
+				document.getElementById(
+					"baseValue"
+				).innerText = ` ${BaseScale.toString()}`;
+
+				RoughScale = $("#roughRange").val() / 100.0;
+				document.getElementById(
+					"roughValue"
+				).innerText = ` ${RoughScale.toString()}`;
+
+				NoiseScale2x = $("#noise2Range").val() / 100.0;
+				document.getElementById(
+					"noise2Value"
+				).innerText = ` ${NoiseScale2x.toString()}`;
+
+				SeaLevel = $("#seaLevelRange").val() / 100.0;
+				document.getElementById(
+					"seaLevelValue"
+				).innerText = ` ${SeaLevel.toString()}`;
+
+				DetailScale = $("#detailRange").val() / 100.0;
+				document.getElementById(
+					"detailValue"
+				).innerText = ` ${DetailScale.toString()}`;
+
+				NoiseScale3x = $("#noise3Range").val() / 100.0;
+				document.getElementById(
+					"noise3Value"
+				).innerText = ` ${NoiseScale3x.toString()}`;
+
+				NegativeScale = $("#negativeRange").val() / 100.0;
+				document.getElementById(
+					"negativeValue"
+				).innerText = ` ${NegativeScale.toString()}`;
+
+				NoiseScale4x = $("#noise4Range").val() / 100.0;
+				document.getElementById(
+					"noise4Value"
+				).innerText = ` ${NoiseScale4x.toString()}`;
+
+				// Set Planet Header
 				document.getElementById("planetChartHeader").innerText = $(
 					"#planetChartSelect :selected"
 				).val();
 
+				// Get Canvas
 				var planetChartCanvas = document.getElementById("planetChartCanvas");
-				planetChartCanvas.width = 512;
-				planetChartCanvas.height = 512;
+				planetChartCanvas.width = MapSize;
+				planetChartCanvas.height = MapSize;
 				var planetChartContext = planetChartCanvas.getContext("2d");
-				planetChartCanvas.style.backgroundColor = "rgba(32,32,32,1)";
 
 				var image = planetChartContext.createImageData(
 					planetChartCanvas.width,
@@ -472,14 +726,15 @@
 				var data = image.data;
 
 				if (seedValue) {
+					let seed = (1.0 / seedValue) * 65536;
 					noise.seed(seedValue);
 				}
 
 				// Set Map Values
-				WorldHumidity = getRandomFloat(0.85, 1.15);
-				WorldTemperature = getRandomFloat(0.85, 1.15);
-				WorldHeight = getRandomFloat(1.0, 1.25);
-				SeaLevel = getRandomFloat(0.15, 0.3);
+				//WorldHumidity = getRandomFloat(0.85, 1.15);
+				//WorldTemperature = getRandomFloat(0.85, 1.15);
+				//WorldHeight = 1.0;
+				//SeaLevel = getRandomFloat(0.15, 0.3);
 				NoiseOrigin1x = getRandomFloat(0.0, 10.0);
 				NoiseOrigin1z = getRandomFloat(0.0, 10.0);
 				NoiseOrigin2x = getRandomFloat(0.0, 10.0);
@@ -488,34 +743,43 @@
 				NoiseOrigin3z = getRandomFloat(0.0, 10.0);
 				NoiseOrigin4x = getRandomFloat(0.0, 10.0);
 				NoiseOrigin4z = getRandomFloat(0.0, 10.0);
-				vScalex = 1.0;
-				vScaley = 1.0;
-				vScalez = 1.0;
-				NoiseScale1x = getRandomFloat(vScalex, vScaley);
-				NoiseScale1z = NoiseScale1x;
-				gScalex = 1.0;
-				gScaley = 1.0;
-				gScalez = 1.0;
-				NoiseScale2x = NoiseScale1x * gScalex;
-				NoiseScale2z = NoiseScale1z * gScalex;
-				NoiseScale3x = NoiseScale2x * gScaley;
-				NoiseScale3z = NoiseScale2z * gScaley;
-				NoiseScale4x = NoiseScale1x * gScalez;
-				NoiseScale4z = NoiseScale1z * gScalez;
+				//vScalex = 0.25;
+				//vScaley = 0.25;
+				//vScalez = 0.25;
+				//	NoiseScale1x = getRandomFloat(vScalex, vScaley);
+				//NoiseScale1z = NoiseScale1x;
+				//gScalex = 1.0;
+				//gScaley = 1.0;
+				//gScalez = 1.0;
+				//NoiseScale2x = NoiseScale1x * gScalex;
+				//NoiseScale2z = NoiseScale1z * gScalex;
+				//NoiseScale3x = NoiseScale2x * gScaley;
+				//NoiseScale3z = NoiseScale2z * gScaley;
+				//NoiseScale4x = NoiseScale1x * gScalez;
+				//NoiseScale4z = NoiseScale1z * gScalez;
 
 				for (var x = 0; x < planetChartCanvas.width; x++) {
 					for (var y = 0; y < planetChartCanvas.height; y++) {
 						//var value = noise.perlin2(x / 100, y / 100);
 						var value = GetValue({ x: x, y: 1, z: y });
-						value *= 4;
 
+						let color = BiomeColors[value];
 						var cell = (x + y * planetChartCanvas.width) * 4;
-						data[cell] = data[cell + 1] = data[cell + 2] = value;
-						data[cell + 3] = 255; // alpha.
+						data[cell] = color["r"];
+						data[cell + 1] = color["g"];
+						data[cell + 2] = color["b"];
+						data[cell + 3] = color["a"];
 					}
 				}
 
-				planetChartContext.fillColor = "black";
+				planetChartContext.fillColor = "white";
+				planetChartContext.strokeStyle = "black";
+				planetChartContext.strokeRect(
+					0,
+					0,
+					planetChartCanvas.width,
+					planetChartCanvas.height
+				);
 				planetChartContext.putImageData(image, 0, 0);
 			}
 
@@ -562,28 +826,29 @@
 						Math.pow(position.z - MapSize / 2, 2) / Math.pow(MapSize / 2, 2)
 					) + WorldHeight;
 				Base =
-					BaseT *
-					noise.perlin2(
-						MasterScale * NoiseScale1x * (NoiseOrigin1x + position.x),
-						MasterScale * NoiseScale1z * (NoiseOrigin1z + position.z)
-					);
+					BaseScale *
+						noise.perlin2(
+							MasterScale * NoiseScale1x * (NoiseOrigin1x + position.x),
+							MasterScale * NoiseScale1x * (NoiseOrigin1z + position.z)
+						) +
+					WorldHeight;
 				Roughness =
-					RoughT *
+					RoughScale *
 					noise.perlin2(
 						MasterScale * NoiseScale2x * (NoiseOrigin2x + position.x),
-						MasterScale * NoiseScale2z * (NoiseOrigin2z + position.z)
+						MasterScale * NoiseScale2x * (NoiseOrigin2z + position.z)
 					);
 				Detail =
-					DetailT *
+					DetailScale *
 					noise.perlin2(
 						MasterScale * NoiseScale3x * (NoiseOrigin3x + position.x),
-						MasterScale * NoiseScale3z * (NoiseOrigin3z + position.z)
+						MasterScale * NoiseScale3x * (NoiseOrigin3z + position.z)
 					);
 				Negative =
-					NegaT *
+					NegativeScale *
 					noise.perlin2(
 						MasterScale * NoiseScale4x * (NoiseOrigin4x + position.x),
-						MasterScale * NoiseScale4z * (NoiseOrigin4z + position.z)
+						MasterScale * NoiseScale4x * (NoiseOrigin4z + position.z)
 					);
 
 				let Sample =
@@ -600,7 +865,7 @@
 			}
 
 			function GetValue(position) {
-				let Value = 13;
+				let Value = "Error";
 
 				let Altitude = GetAltitude(position);
 
@@ -612,118 +877,118 @@
 						//Artic
 						if (Altitude - SeaLevel < 0.025) {
 							//Coastal
-							Value = 3; //Ice
+							Value = "Artic Ice"; //Ice
 						} else if (Altitude < 0.6) {
 							//Plains
 							if (Humidity < 0.33) {
-								Value = 4; //Artic Desert
+								Value = "Artic Desert"; //Artic Desert
 							} else {
-								Value = 5; //Tundra
+								Value = "Artic Tundra"; //Tundra
 							}
 						} else if (Altitude >= 0.6 && Altitude < 0.8) {
 							//Hills
-							Value = 6; //Tundra Hills
+							Value = "Artic Tundra Hills"; //Tundra Hills
 						} else {
 							//Mountains
-							Value = 7; //Tundra Mountains
+							Value = "Artic Tundra Mountains"; //Tundra Mountains
 						}
 					} else if (Temperature >= 0.25 && Temperature < 0.5) {
 						//Sub Artic
 						if (Altitude - SeaLevel < 0.025) {
 							//Coastal
-							Value = 8; //Beach
+							Value = "Sub Artic Beach"; //Beach
 						} else if (Altitude < 0.6) {
 							//Plains
 							if (Humidity < 0.33) {
-								Value = 9; //Sub Artic Desert
+								Value = "Sub Artic Desert"; //Sub Artic Desert
 							} else {
-								Value = 10; //Taiga
+								Value = "Sub Artic Taiga"; //Taiga
 							}
 						} else if (Altitude >= 0.6 && Altitude < 0.8) {
 							//Hills
-							Value = 11; //Sub Artic Hills
+							Value = "Sub Artic Hills"; //Sub Artic Hills
 						} else {
 							//Mountains
-							Value = 12; //Sub Artic Mountains
+							Value = "Sub Artic Mountains"; //Sub Artic Mountains
 						}
 					} else if (Temperature >= 0.5 && Temperature < 0.8) {
 						//Temperate
 						if (Altitude - SeaLevel < 0.025) {
 							//Coastal
-							Value = 13; //Beach
+							Value = "Temperate Beach"; //Beach
 						} else if (Altitude - SeaLevel < 0.05 && Humidity > 0.66) {
-							Value = 14; //Swamp
+							Value = "Temperate Swamp"; //Swamp
 						} else if (Altitude < 0.6) {
 							//Plains
 							if (Humidity < 0.33) {
-								Value = 15; //Desert
+								Value = "Temperate Desert"; //Desert
 							} else if (Humidity >= 0.33 && Humidity < 0.66) {
-								Value = 16; //Grasslands
+								Value = "Temperate Grasslands"; //Grasslands
 							} else {
-								Value = 17; //Forest
+								Value = "Temperate Forest"; //Forest
 							}
 						} else if (Altitude >= 0.6 && Altitude < 0.8) {
 							//Hills
 							if (Humidity < 0.33) {
-								Value = 18; //Desert
+								Value = "Temperate Desert Hills"; //Desert
 							} else if (Humidity >= 0.33 && Humidity < 0.66) {
-								Value = 19; //Grasslands
+								Value = "Temperate Grassland Hills"; //Grasslands
 							} else {
-								Value = 20; //Forest
+								Value = "Temperate Forest Hills"; //Forest
 							}
 						} else {
 							//Mountains
-							Value = 21; //Temperate Mountains
+							Value = "Temperate Mountains"; //Temperate Mountains
 						}
 					} else if (Temperature >= 0.8) {
 						//Tropical
 						if (Altitude - SeaLevel < 0.025) {
 							//Coastal
-							Value = 22; //Beach
+							Value = "Tropical Beach"; //Beach
 						} else if (Altitude - SeaLevel < 0.05 && Humidity > 0.66) {
-							Value = 23; //Swamp
+							Value = "Tropical Swamp"; //Swamp
 						} else if (Altitude < 0.6) {
 							//Plains
 							if (Humidity < 0.2) {
-								Value = 24; //Desert
+								Value = "Tropical Desert"; //Desert
 							} else if (Humidity >= 0.2 && Humidity < 0.4) {
-								Value = 25; //Shrubland
+								Value = "Tropical Shurbland"; //Shrubland
 							} else if (Humidity >= 0.4 && Humidity < 0.6) {
-								Value = 26; //Savannah
+								Value = "Tropical Savannah"; //Savannah
 							} else if (Humidity >= 0.6 && Humidity < 0.8) {
-								Value = 27; //Forest
+								Value = "Tropical Forest"; //Forest
 							} else {
-								Value = 28; //Rainforest
+								Value = "Tropical Rainforest"; //Rainforest
 							}
 						} else if (Altitude >= 0.6 && Altitude < 0.8) {
 							//Hills
 							if (Humidity < 0.2) {
-								Value = 29; //Desert
+								Value = "Tropical Desert Hills"; //Desert
 							} else if (Humidity >= 0.2 && Humidity < 0.4) {
-								Value = 30; //Shrubland
+								Value = "Tropical Shrubland Hills"; //Shrubland
 							} else if (Humidity >= 0.4 && Humidity < 0.6) {
-								Value = 31; //Savannah
+								Value = "Tropical Savannah Hills"; //Savannah
 							} else if (Humidity >= 0.6 && Humidity < 0.8) {
-								Value = 32; //Forest
+								Value = "Tropical Forest Hills"; //Forest
 							} else {
-								Value = 33; //Rainforest
+								Value = "Tropical Rainforest Hills"; //Rainforest
 							}
 						} else {
 							//Mountains
-							Value = 34; //Tropical Mountains
+							Value = "Tropical Mountains"; //Tropical Mountains
 						}
 					}
 
 					//In case of error
 					else {
-						Value = 0; //Error
+						Value = "Error"; //Error
 					}
 				} else {
 					if (Altitude < SeaLevel * 0.5) {
-						Value = 1; //Deep Ocean
+						Value = "Deep Ocean"; //Deep Ocean
 					} else {
 					}
-					Value = 2; //Shallow Ocean
+					Value = "Shallow Ocean"; //Shallow Ocean
 				}
 
 				return Value;

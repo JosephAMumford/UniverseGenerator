@@ -33,58 +33,6 @@ const UniverseData = {
 	],
 };
 
-// Biome Colors
-const BiomeColors = {
-	Tundra: {
-		r: 0,
-		g: 0,
-		b: 0,
-		a: 255,
-	},
-	Alpine: {
-		r: 0,
-		g: 0,
-		b: 0,
-		a: 255,
-	},
-	Desert: {
-		r: 0,
-		g: 0,
-		b: 0,
-		a: 255,
-	},
-	Grassland: {
-		r: 0,
-		g: 0,
-		b: 0,
-		a: 255,
-	},
-	Savannah: {
-		r: 0,
-		g: 0,
-		b: 0,
-		a: 255,
-	},
-	Forest: {
-		r: 0,
-		g: 0,
-		b: 0,
-		a: 255,
-	},
-	Jungle: {
-		r: 0,
-		g: 0,
-		b: 0,
-		a: 255,
-	},
-	Beach: {
-		r: 0,
-		g: 0,
-		b: 0,
-		a: 255,
-	},
-};
-
 // Lanaguage
 const LanguageData = {
 	Consonants: [
@@ -623,7 +571,253 @@ const chartSizes = {
 	"Neutron star": 12,
 	"Black hole": 12,
 };
-//Diameter - km
-//Mass - kg
-//Density - g/cm3
-//Gravity - m/s2
+
+// Biome Colors
+const BiomeColors = {
+	"Artic Ice": {
+		r: 224,
+		g: 255,
+		b: 255,
+		a: 255,
+	},
+	"Artic Desert": {
+		r: 216,
+		g: 191,
+		b: 216,
+		a: 255,
+	},
+	"Artic Tundra": {
+		r: 176,
+		g: 225,
+		b: 230,
+		a: 255,
+	},
+	"Artic Tundra Hills": {
+		r: 95,
+		g: 158,
+		b: 160,
+		a: 255,
+	},
+	"Artic Tundra Mountains": {
+		r: 47,
+		g: 79,
+		b: 79,
+		a: 255,
+	},
+	"Sub Artic Beach": {
+		r: 188,
+		g: 143,
+		b: 143,
+		a: 255,
+	},
+	"Sub Artic Desert": {
+		r: 244,
+		g: 164,
+		b: 96,
+		a: 255,
+	},
+	"Sub Artic Taiga": {
+		r: 152,
+		g: 251,
+		b: 152,
+		a: 255,
+	},
+	"Sub Artic Hills": {
+		r: 222,
+		g: 184,
+		b: 135,
+		a: 255,
+	},
+	"Sub Artic Mountains": {
+		r: 119,
+		g: 136,
+		b: 153,
+		a: 255,
+	},
+	"Temperate Beach": {
+		r: 189,
+		g: 183,
+		b: 107,
+		a: 255,
+	},
+	"Temperate Swamp": {
+		r: 143,
+		g: 188,
+		b: 143,
+		a: 255,
+	},
+	"Temperate Desert": {
+		r: 238,
+		g: 232,
+		b: 170,
+		a: 255,
+	},
+	"Temperate Grasslands": {
+		r: 0,
+		g: 128,
+		b: 0,
+		a: 255,
+	},
+	"Temperate Forest": {
+		r: 0,
+		g: 100,
+		b: 0,
+		a: 255,
+	},
+	"Temperate Desert Hills": {
+		r: 184,
+		g: 134,
+		b: 11,
+		a: 255,
+	},
+	"Temperate Grassland Hills": {
+		r: 0,
+		g: 64,
+		b: 0,
+		a: 255,
+	},
+	"Temperate Forest Hills": {
+		r: 0,
+		g: 50,
+		b: 0,
+		a: 255,
+	},
+	"Temperate Mountains": {
+		r: 112,
+		g: 128,
+		b: 144,
+		a: 255,
+	},
+	"Tropical Beach": {
+		r: 240,
+		g: 230,
+		b: 140,
+		a: 255,
+	},
+	"Tropical Swamp": {
+		r: 0,
+		g: 250,
+		b: 154,
+		a: 255,
+	},
+	"Tropical Desert": {
+		r: 218,
+		g: 165,
+		b: 32,
+		a: 255,
+	},
+	"Tropical Shrubland": {
+		r: 128,
+		g: 128,
+		b: 0,
+		a: 255,
+	},
+	"Tropical Savannah": {
+		r: 154,
+		g: 205,
+		b: 50,
+		a: 255,
+	},
+	"Tropical Forest": {
+		r: 0,
+		g: 255,
+		b: 127,
+		a: 255,
+	},
+	"Tropical Rainforest": {
+		r: 60,
+		g: 179,
+		b: 113,
+		a: 255,
+	},
+	"Tropical Desert Hills": {
+		r: 210,
+		g: 180,
+		b: 140,
+		a: 255,
+	},
+	"Tropical Shrubland Hills": {
+		r: 85,
+		g: 107,
+		b: 47,
+		a: 255,
+	},
+	"Tropical Savannah Hills": {
+		r: 107,
+		g: 142,
+		b: 35,
+		a: 255,
+	},
+	"Tropical Forest Hills": {
+		r: 160,
+		g: 82,
+		b: 45,
+		a: 255,
+	},
+	"Tropical Rainforest Hills": {
+		r: 46,
+		g: 139,
+		b: 87,
+		a: 255,
+	},
+	"Tropical Mountains": {
+		r: 205,
+		g: 133,
+		b: 63,
+		a: 255,
+	},
+	"Deep Ocean": {
+		r: 0,
+		g: 0,
+		b: 139,
+		a: 255,
+	},
+	"Shallow Ocean": {
+		r: 0,
+		g: 0,
+		b: 205,
+		a: 255,
+	},
+	Error: {
+		r: 255,
+		g: 0,
+		b: 255,
+		a: 255,
+	},
+};
+
+// Artic Ice:                 light cyan
+// Artic Desert:              thistle
+// Artic Tundra:              powder blue
+// Artic Tundra Hills:        cadet blue
+// Artic Tundra Mountains:    dark slate gray
+// Sub Artic Beach:           rosy brown
+// Sub Artic Desert:          sandy brown
+// Sub Artic Taiga:           pale green
+// Sub Artic Hills:           burly wood
+// Sub Artic Mountains:       light slate gray
+// Temperate Beach:           dark khaki
+// Temperate Swamp:           dark sea green
+// Temperate Desert:          pale golden rod
+// Temperate Grasslands:      green
+// Temperate Forest:          dark green
+// Temperate Desert Hills:    dark golden rod
+// Temperate Grassland Hills: 0.5 * green
+// Temperate Forest Hills:    0.5 * dark green
+// Temperate Mountains:       slate gray
+// Tropical Beach:            khaki
+// Tropical Swamp:            medium spring green
+// Tropical Desert:           golden rod
+// Tropical Shrubland:        olive
+// Tropical Savannah:         yellow green
+// Tropical Forest:           spring green
+// Tropical Rainforest:       medium sea green
+// Tropical Desert Hills:     tan
+// Tropical Shrubland Hills:  dark olive green
+// Tropical Savannah Hills:   olive drab
+// Tropical Forest Hills:     sienna
+// Tropical Rainforest Hills: sea green
+// Tropical Mountains:        peru
+// Deep Ocean:                dark blue
+// Shallow Ocean:             medium blue
+// Error:                     magenta
