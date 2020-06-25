@@ -214,6 +214,7 @@
 							>
 							</select>
 							<h3 id="planetChartHeader"></h3>
+							<p id="planetChartInfo"></p>
 							<canvas id="planetChartCanvas">
 								Your browser does not support the HTML5 canvas tag.</canvas
 							>
@@ -225,8 +226,8 @@
 									<input
 										type="range"
 										min="0"
-										max="20"
-										value="20"
+										max="10"
+										value="5"
 										class="form-control-range w-25"
 										id="masterScaleRange"
 										oninput="generatePlanetMap()"
@@ -239,7 +240,7 @@
 									<input
 										type="range"
 										min="0"
-										max="100"
+										max="150"
 										value="100"
 										class="form-control-range w-25"
 										id="humidityRange"
@@ -253,7 +254,7 @@
 									<input
 										type="range"
 										min="0"
-										max="100"
+										max="150"
 										value="100"
 										class="form-control-range w-25"
 										id="temperatureRange"
@@ -267,43 +268,13 @@
 									<input
 										type="range"
 										min="0"
-										max="100"
+										max="150"
 										value="100"
 										class="form-control-range w-25"
 										id="heightRange"
 										oninput="generatePlanetMap()"
 									/>
 								</div>
-								<div class="form-group">
-									<label for="noise1Range"
-										>Noise 1<span id="noise1Value"></span
-									></label>
-									<input
-										type="range"
-										min="0"
-										max="100"
-										value="100"
-										class="form-control-range w-25"
-										id="noise1Range"
-										oninput="generatePlanetMap()"
-									/>
-								</div>
-								<div class="form-group">
-									<label for="baseRange"
-										>Base<span id="baseValue"></span
-									></label>
-									<input
-										type="range"
-										min="0"
-										max="100"
-										value="100"
-										class="form-control-range w-25"
-										id="baseRange"
-										oninput="generatePlanetMap()"
-									/>
-								</div>
-							</div>
-							<div style="display: inline-block;">
 								<div class="form-group">
 									<label for="seaLevelRange"
 										>Sea Level<span id="seaLevelValue"></span
@@ -318,17 +289,33 @@
 										oninput="generatePlanetMap()"
 									/>
 								</div>
+							</div>
+							<div style="display: inline-block;">
 								<div class="form-group">
-									<label for="noise2Range"
-										>Noise 2<span id="noise2Value"></span
+									<label for="baseRange"
+										>Base<span id="baseValue"></span
 									></label>
 									<input
 										type="range"
-										min="0"
-										max="100"
+										min="100"
+										max="200"
 										value="100"
 										class="form-control-range w-25"
-										id="noise2Range"
+										id="baseRange"
+										oninput="generatePlanetMap()"
+									/>
+								</div>
+								<div class="form-group">
+									<label for="noise1Range"
+										>Noise 1<span id="noise1Value"></span
+									></label>
+									<input
+										type="range"
+										min="100"
+										max="300"
+										value="100"
+										class="form-control-range w-25"
+										id="noise1Range"
 										oninput="generatePlanetMap()"
 									/>
 								</div>
@@ -339,10 +326,24 @@
 									<input
 										type="range"
 										min="0"
-										max="100"
+										max="1000"
 										value="100"
 										class="form-control-range w-25"
 										id="roughRange"
+										oninput="generatePlanetMap()"
+									/>
+								</div>
+								<div class="form-group">
+									<label for="noise2Range"
+										>Noise 2<span id="noise2Value"></span
+									></label>
+									<input
+										type="range"
+										min="0"
+										max="1000"
+										value="100"
+										class="form-control-range w-25"
+										id="noise2Range"
 										oninput="generatePlanetMap()"
 									/>
 								</div>
@@ -353,7 +354,7 @@
 									<input
 										type="range"
 										min="0"
-										max="100"
+										max="1000"
 										value="100"
 										class="form-control-range w-25"
 										id="detailRange"
@@ -367,7 +368,7 @@
 									<input
 										type="range"
 										min="0"
-										max="100"
+										max="1000"
 										value="100"
 										class="form-control-range w-25"
 										id="noise3Range"
@@ -381,7 +382,7 @@
 									<input
 										type="range"
 										min="0"
-										max="100"
+										max="300"
 										value="100"
 										class="form-control-range w-25"
 										id="negativeRange"
@@ -395,7 +396,7 @@
 									<input
 										type="range"
 										min="0"
-										max="100"
+										max="75"
 										value="100"
 										class="form-control-range w-25"
 										id="noise4Range"
@@ -441,6 +442,7 @@
 			};
 
 			let seedValue;
+			var currentPlanet = {};
 
 			function copyInfo() {
 				const copyText = document.getElementById("list").textContent;
@@ -608,6 +610,16 @@
 				generatePlanetMap();
 			}
 
+			function getPlanet(name) {
+				Universe["Stars"].forEach((star) => {
+					star["Planets"].forEach((planet) => {
+						if (planet["Name"] == name) {
+							currentPlanet = planet;
+						}
+					});
+				});
+			}
+
 			var MapSize = 512;
 			var WorldHumidity;
 			var WorldTemperature;
@@ -713,6 +725,8 @@
 					"#planetChartSelect :selected"
 				).val();
 
+				getPlanet($("#planetChartSelect :selected").val());
+
 				// Get Canvas
 				var planetChartCanvas = document.getElementById("planetChartCanvas");
 				planetChartCanvas.width = MapSize;
@@ -730,19 +744,30 @@
 					noise.seed(seedValue);
 				}
 
+				let random = new RandomGenerator(seedValue);
 				// Set Map Values
-				//WorldHumidity = getRandomFloat(0.85, 1.15);
-				//WorldTemperature = getRandomFloat(0.85, 1.15);
-				//WorldHeight = 1.0;
-				//SeaLevel = getRandomFloat(0.15, 0.3);
-				NoiseOrigin1x = getRandomFloat(0.0, 10.0);
-				NoiseOrigin1z = getRandomFloat(0.0, 10.0);
-				NoiseOrigin2x = getRandomFloat(0.0, 10.0);
-				NoiseOrigin2z = getRandomFloat(0.0, 10.0);
-				NoiseOrigin3x = getRandomFloat(0.0, 10.0);
-				NoiseOrigin3z = getRandomFloat(0.0, 10.0);
-				NoiseOrigin4x = getRandomFloat(0.0, 10.0);
-				NoiseOrigin4z = getRandomFloat(0.0, 10.0);
+				WorldHumidity = random.getRandomFloat(0.85, 1.15);
+				// WorldTemperature = mapValueToRange(
+				// 	currentPlanet["Temperature"],
+				// 	0.0,
+				// 	100.0,
+				// 	0.0,
+				// 	1.0
+				// );
+				document.getElementById(
+					"planetChartInfo"
+				).innerText = `Temp Value: ${WorldTemperature.toString()}`;
+				//WorldTemperature = random.getRandomFloat(0.85, 1.15);
+				WorldHeight = 1.0;
+				SeaLevel = random.getRandomFloat(0.15, 0.3);
+				NoiseOrigin1x = random.getRandomFloat(0.0, 10.0);
+				NoiseOrigin1z = random.getRandomFloat(0.0, 10.0);
+				NoiseOrigin2x = random.getRandomFloat(0.0, 10.0);
+				NoiseOrigin2z = random.getRandomFloat(0.0, 10.0);
+				NoiseOrigin3x = random.getRandomFloat(0.0, 10.0);
+				NoiseOrigin3z = random.getRandomFloat(0.0, 10.0);
+				NoiseOrigin4x = random.getRandomFloat(0.0, 10.0);
+				NoiseOrigin4z = random.getRandomFloat(0.0, 10.0);
 				//vScalex = 0.25;
 				//vScaley = 0.25;
 				//vScalez = 0.25;
